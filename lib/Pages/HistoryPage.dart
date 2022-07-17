@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -10,13 +11,30 @@ import '../Widgets/PlastikatBar.dart';
 import '../Widgets/PlastikatDrawer.dart';
 import 'package:plastikat_client/globals.dart' as globals;
 
-class HistoryPage extends StatefulWidget {
-  @override
-  State<HistoryPage> createState() => _HistoryPageState();
+import 'package:flutter_gen/gen_l10n/app_localizations.dart' show AppLocalizations;
+
+class HistoryPage extends StatelessWidget {
+
+
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home:MyHistoryPage()
+    );
+  }
 }
 
-class _HistoryPageState extends State<HistoryPage> {
+
+class MyHistoryPage extends StatefulWidget {
+  @override
+  State<MyHistoryPage> createState() => _MyHistoryPageState();
+}
+
+class _MyHistoryPageState extends State<MyHistoryPage> {
   Color plastikatGreen = Color.fromRGBO(10, 110, 15, 100);
+  final String defaultLocale = Platform.localeName.split("_")[0];
   List<ClientOffer> history = [];
   bool isLoaded=false;
   int? i;
@@ -47,8 +65,7 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
     i=0;
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
           drawer: PlastikatDrawer(),
           appBar: PlastikatBar(),
           body: isLoaded? SingleChildScrollView(
@@ -59,12 +76,12 @@ class _HistoryPageState extends State<HistoryPage> {
                 ...history.map((offer) {
                   i = i!+1;
                   return Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
+                    padding: defaultLocale=='en' ? const EdgeInsets.only(left: 20.0) : const EdgeInsets.only(right: 20.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Offer No. ${i}",
+                        Text("${AppLocalizations.of(context)!.offer_No} ${i}",
                         style: TextStyle(
                           color: plastikatGreen,
                           fontSize: 30,
@@ -84,7 +101,6 @@ class _HistoryPageState extends State<HistoryPage> {
                 }).toList()
             ],
           ),
-              )): const CircularProgressIndicator()),
-    );
+              )): const CircularProgressIndicator());
   }
 }

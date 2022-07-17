@@ -4,11 +4,20 @@ import 'package:plastikat_client/Pages/HistoryPage.dart';
 import 'package:plastikat_client/Pages/HomePage.dart';
 import 'package:plastikat_client/Pages/PointsPage.dart';
 import 'package:plastikat_client/Pages/ProfilePage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart' show AppLocalizations;
 
 class PlastikatDrawer extends StatelessWidget {
+
+
+  Widget build(BuildContext context) {
+    return MyPlastikatDrawer();
+  }
+}
+
+class MyPlastikatDrawer extends StatelessWidget {
   final Color plastikatGreen = Color.fromRGBO(10, 110, 15, 100);
 
-  PlastikatDrawer();
+  MyPlastikatDrawer();
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +30,15 @@ class PlastikatDrawer extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   const SizedBox(height: 16),
-                  MenuItem('Home',Icons.home,() => onClicked(context,0)),
+                  MenuItem(AppLocalizations.of(context)!.home,Icons.home,() => onClicked(context,0)),
                   const SizedBox(height: 16),
-                  MenuItem('Points',Icons.wallet_membership,() => onClicked(context,1)),
+                  MenuItem(AppLocalizations.of(context)!.points,Icons.wallet_membership,() => onClicked(context,1)),
                   const SizedBox(height: 16),
-                  MenuItem('Trade History',Icons.history,() => onClicked(context,2)),
+                  MenuItem(AppLocalizations.of(context)!.th,Icons.history,() => onClicked(context,2)),
                   const SizedBox(height: 16),
-                  MenuItem('Profile',Icons.person,() =>  onClicked(context,3)),
+                  MenuItem(AppLocalizations.of(context)!.p,Icons.person,() =>  onClicked(context,3)),
                   const SizedBox(height: 16),
-                  MenuItem('Logout',Icons.logout,() => onClicked(context,4)),
+                  MenuItem(AppLocalizations.of(context)!.logout,Icons.logout,() => onClicked(context,4)),
                 ],
               ),
               //backgroundColor: Colors.red,

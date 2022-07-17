@@ -11,16 +11,32 @@ import 'package:plastikat_client/globals.dart' as globals;
 
 import '../services/complaint_service.dart';
 
-class SendComplaint extends StatefulWidget {
-  String defendantID;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart' show AppLocalizations;
 
+class SendComplaint extends StatelessWidget {
+  String defendantID;
   SendComplaint(this.defendantID);
 
-  @override
-  State<SendComplaint> createState() => _SendComplaintState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home:MySendComplaint(defendantID)
+    );
+  }
 }
 
-class _SendComplaintState extends State<SendComplaint> {
+class MySendComplaint extends StatefulWidget {
+  String defendantID;
+
+  MySendComplaint(this.defendantID);
+
+  @override
+  State<MySendComplaint> createState() => _MySendComplaintState();
+}
+
+class _MySendComplaintState extends State<MySendComplaint> {
   bool showPassword = false;
   TextEditingController? complaintController = TextEditingController();
   Color plastikatGreen = const Color.fromRGBO(10, 110, 15, 100);
@@ -40,7 +56,7 @@ class _SendComplaintState extends State<SendComplaint> {
             context: context,
             artDialogArgs: ArtDialogArgs(
                 type: ArtSweetAlertType.success,
-                text: "Complaint Sent Successfully!"
+                text: AppLocalizations.of(context)!.complaint_success
             )
         );
         Navigator.of(context).pop();
@@ -75,11 +91,11 @@ class _SendComplaintState extends State<SendComplaint> {
                           focusedBorder:OutlineInputBorder(
                             borderSide:  BorderSide(color: plastikatGreen, width: 2.0),
                           ),
-                          hintText: "Write Your Complaint"
+                          hintText: AppLocalizations.of(context)!.com_place
                       ),
                     ),
                     const SizedBox(height: 30,),
-                    PlastikatButton('Send Complaint', sendComplaint)
+                    PlastikatButton(AppLocalizations.of(context)!.send_Button, sendComplaint)
                   ],
                 )
             ),

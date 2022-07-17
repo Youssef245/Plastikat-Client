@@ -15,16 +15,32 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:plastikat_client/globals.dart' as globals;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart' show AppLocalizations;
 
-class SignUpPage extends StatefulWidget {
+class SignUpPage extends StatelessWidget {
   final userInformation;
   SignUpPage(this.userInformation);
 
-  @override
-  _SignUpPageState createState() => _SignUpPageState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home:MySignUpPage(userInformation)
+    );
+  }
 }
 
-class  _SignUpPageState extends State<SignUpPage> {
+
+class MySignUpPage extends StatefulWidget {
+  final userInformation;
+  MySignUpPage(this.userInformation);
+
+  @override
+  _MySignUpPageState createState() => _MySignUpPageState();
+}
+
+class  _MySignUpPageState extends State<MySignUpPage> {
   Color plastikatGreen = Color.fromRGBO(10, 110, 15, 100);
    TextEditingController? emailController ;
    TextEditingController? nameController ;
@@ -110,8 +126,7 @@ class  _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
           drawer: PlastikatDrawer(),
           appBar: PlastikatBar(),
           body: SingleChildScrollView(
@@ -120,10 +135,10 @@ class  _SignUpPageState extends State<SignUpPage> {
                 alignment: Alignment.center,
                 child: Column(
                   children: [
-                    InputWidget("Name",nameController,false),
-                    InputWidget("Email",emailController,false),
-                    InputWidget("Phone Number",phoneNumberController,true),
-                    InputWidget("Profession",professionController,false),
+                    InputWidget(AppLocalizations.of(context)!.name,nameController,false),
+                    InputWidget(AppLocalizations.of(context)!.email,emailController,false),
+                    InputWidget(AppLocalizations.of(context)!.mob,phoneNumberController,true),
+                    InputWidget(AppLocalizations.of(context)!.profession,professionController,false),
                     DropdownButton<String>(
                       value: dropdownValue,
                       icon: const Icon(Icons.arrow_downward),
@@ -170,7 +185,7 @@ class  _SignUpPageState extends State<SignUpPage> {
                     ),Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextWidget('Submit Your Location'),
+                        TextWidget(AppLocalizations.of(context)!.submit_location),
                         IconButton(
                           icon: Icon(Icons.location_on,color: plastikatGreen,),
                           onPressed: () async{
@@ -195,15 +210,14 @@ class  _SignUpPageState extends State<SignUpPage> {
                       ],
                     ),
                     const SizedBox(height: 20,),
-                    PlastikatButton("Sign Up", SignUp),
-                    errorhappened ? Text("Please Enter Your Data Correctly"
-                    , style: TextStyle(color: Colors.red),) : Text("")
+                    PlastikatButton(AppLocalizations.of(context)!.sign_up, SignUp),
+                    errorhappened ? Text(AppLocalizations.of(context)!.error
+                    , style: const TextStyle(color: Colors.red),) : const Text("")
                   ],
                 )
             ),
           )
-      ),
-    );
+      );
   }
 
   Widget TextWidget(String name) {

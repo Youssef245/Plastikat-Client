@@ -15,17 +15,35 @@ import 'package:plastikat_client/globals.dart' as globals;
 
 import 'HomePage.dart';
 
-class ViewPartner extends StatefulWidget {
+import 'package:flutter_gen/gen_l10n/app_localizations.dart' show AppLocalizations;
+
+class ViewPartner extends StatelessWidget {
   String partnerID;
   int points;
 
   ViewPartner(this.partnerID,this.points);
 
-  @override
-  State<ViewPartner> createState() => _ViewPartnerState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home:MyViewPartner(partnerID,points)
+    );
+  }
 }
 
-class _ViewPartnerState extends State<ViewPartner> {
+class MyViewPartner extends StatefulWidget {
+  String partnerID;
+  int points;
+
+  MyViewPartner(this.partnerID,this.points);
+
+  @override
+  State<MyViewPartner> createState() => _MyViewPartnerState();
+}
+
+class _MyViewPartnerState extends State<MyViewPartner> {
   Color plastikatGreen = Color.fromRGBO(10, 110, 15, 100);
   final String assetName = 'images/Placeholder.jpg';
   String bullet = '\u2022 ';
@@ -74,8 +92,7 @@ class _ViewPartnerState extends State<ViewPartner> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         drawer: PlastikatDrawer(),
         appBar: PlastikatBar(),
         body: SingleChildScrollView(
@@ -93,8 +110,7 @@ class _ViewPartnerState extends State<ViewPartner> {
                     PartnerFullInformation(),
                   ],
                 ):const CircularProgressIndicator())),
-      ),
-    );
+      );
   }
 
   Widget textWidget(String value) {
@@ -121,15 +137,15 @@ class _ViewPartnerState extends State<ViewPartner> {
   Widget PartnerFullInformation()
   {
     return Container(
-      padding: EdgeInsets.only(left: 20),
+      padding:  EdgeInsets.only(left: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          titleWidget('Description'),
+          titleWidget( AppLocalizations.of(context)!.description),
           const SizedBox(height: 15),
           textWidget(partner!.description),
           const SizedBox(height: 15),
-          titleWidget('Rewards'),
+          titleWidget(AppLocalizations.of(context)!.rewards),
           const SizedBox(height: 20),
           SingleChildScrollView(
             child: Column(
@@ -149,7 +165,7 @@ class _ViewPartnerState extends State<ViewPartner> {
                                   fontWeight: FontWeight.w300),
                             ),
                             const SizedBox(width: 15,),
-                            Text("Points : ${reward.points.toString()}",
+                            Text("${AppLocalizations.of(context)!.points} : ${reward.points.toString()}",
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 15,
@@ -158,7 +174,7 @@ class _ViewPartnerState extends State<ViewPartner> {
                             ),
                             const SizedBox(width: 15,),
                             TextButton(
-                              child: Text('Claim Reward',
+                              child: Text( AppLocalizations.of(context)!.claim_rewards,
                                 style: TextStyle(
                                     color: plastikatGreen,
                                     fontSize: 15,

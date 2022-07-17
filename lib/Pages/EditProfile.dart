@@ -13,15 +13,34 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:plastikat_client/globals.dart' as globals;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart' show AppLocalizations;
 
-class EditProfile extends StatefulWidget {
-  EditProfile();
 
-  @override
-  _EditProfileState createState() => _EditProfileState();
+class EditProfile extends StatelessWidget
+{
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home:MyEditProfile()
+    );
+  }
 }
 
-class  _EditProfileState extends State<EditProfile> {
+
+
+
+
+
+class MyEditProfile extends StatefulWidget {
+  MyEditProfile();
+
+  @override
+  _MyEditProfileState createState() => _MyEditProfileState();
+}
+
+class  _MyEditProfileState extends State<MyEditProfile> {
   Color plastikatGreen = Color.fromRGBO(10, 110, 15, 100);
   TextEditingController? emailController ;
   TextEditingController? nameController ;
@@ -107,8 +126,7 @@ class  _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
           drawer: PlastikatDrawer(),
           appBar: PlastikatBar(),
           body: SingleChildScrollView(
@@ -117,14 +135,14 @@ class  _EditProfileState extends State<EditProfile> {
                 alignment: Alignment.center,
                 child: Column(
                   children: [
-                    InputWidget("Name",nameController,false),
-                    InputWidget("Email",emailController,false),
-                    InputWidget("Phone Number",phoneNumberController,true),
-                    InputWidget("Profession",professionController,false),
+                    InputWidget(AppLocalizations.of(context)!.name,nameController,false),
+                    InputWidget(AppLocalizations.of(context)!.email,emailController,false),
+                    InputWidget(AppLocalizations.of(context)!.mob,phoneNumberController,true),
+                    InputWidget(AppLocalizations.of(context)!.profession,professionController,false),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextWidget('Update Your Location'),
+                        TextWidget(AppLocalizations.of(context)!.location),
                         IconButton(
                           icon: Icon(Icons.location_on,color: plastikatGreen,),
                           onPressed: () async{
@@ -149,15 +167,14 @@ class  _EditProfileState extends State<EditProfile> {
                       ],
                     ),
                     const SizedBox(height: 20,),
-                    PlastikatButton("Update Profile", updateProfile),
-                    errorhappened ? const Text("Please Enter Your Data Correctly"
-                      , style: TextStyle(color: Colors.red),) : const Text("")
+                    PlastikatButton(AppLocalizations.of(context)!.save_profile, updateProfile),
+                    errorhappened ?  Text(AppLocalizations.of(context)!.error
+                      , style: const TextStyle(color: Colors.red),) : const Text("")
                   ],
                 )
             ) :  const CircularProgressIndicator()
           )
-      ),
-    );
+      );
   }
 
   Widget TextWidget(String name) {

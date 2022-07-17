@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -7,15 +9,32 @@ import '../Widgets/OfferInfo.dart';
 import '../Widgets/PlastikatBar.dart';
 import '../Widgets/PlastikatDrawer.dart';
 import 'package:plastikat_client/globals.dart' as globals;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart' show AppLocalizations;
 
-class OngoingOffersPage extends StatefulWidget {
-  @override
-  State<OngoingOffersPage> createState() => _OngoingOffersPageState();
+class OngoingOffersPage extends StatelessWidget {
+
+
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home:MyOngoingOffersPage()
+    );
+  }
 }
 
-class _OngoingOffersPageState extends State<OngoingOffersPage> {
+
+
+class MyOngoingOffersPage extends StatefulWidget {
+  @override
+  State<MyOngoingOffersPage> createState() => _MyOngoingOffersPageState();
+}
+
+class _MyOngoingOffersPageState extends State<MyOngoingOffersPage> {
   static const  Color plastikatGreen = Color.fromRGBO(10, 110, 15, 100);
   List<ClientOffer> initiated = [];
+  final String defaultLocale = Platform.localeName.split("_")[0];
   bool isLoaded=false;
   int? i;
 
@@ -54,8 +73,7 @@ class _OngoingOffersPageState extends State<OngoingOffersPage> {
   @override
   Widget build(BuildContext context) {
     i=0;
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
           drawer: PlastikatDrawer(),
           appBar: PlastikatBar(),
           body: isLoaded? SingleChildScrollView(
@@ -67,7 +85,8 @@ class _OngoingOffersPageState extends State<OngoingOffersPage> {
                         children: [
                         Positioned(
                         top: 10,
-                        right: 10,
+                        right: defaultLocale=='en' ? 10 : null,
+                        left: defaultLocale=='ar' ? 10 : null,
                         child: TextButton(
                           child: const Icon(Icons.cancel, color: Colors.red,
                             size: 30,),
@@ -79,7 +98,7 @@ class _OngoingOffersPageState extends State<OngoingOffersPage> {
                                   context: context,
                                   artDialogArgs: ArtDialogArgs(
                                       type: ArtSweetAlertType.success,
-                                      text: "Offer Canceled Successfully!"
+                                      text: AppLocalizations.of(context)!.offer_cancel
                                   )
                               );
                               setState(() {
@@ -96,8 +115,8 @@ class _OngoingOffersPageState extends State<OngoingOffersPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: Text("Offer No. ${i}",
+                          padding: defaultLocale=='en' ? const EdgeInsets.only(left: 20.0) : const EdgeInsets.only(right: 20.0),
+                          child: Text("${AppLocalizations.of(context)!.offer_No} ${i}",
                             style: const TextStyle(
                               color: plastikatGreen,
                               fontSize: 20,
@@ -119,7 +138,6 @@ class _OngoingOffersPageState extends State<OngoingOffersPage> {
                     );
                   }).toList()
                 ],
-              )): const CircularProgressIndicator()),
-    );
+              )): const CircularProgressIndicator());
   }
 }

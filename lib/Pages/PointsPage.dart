@@ -11,16 +11,32 @@ import '../Widgets/PlastikatButton.dart';
 import '../Widgets/PlastikatDrawer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plastikat_client/globals.dart' as globals;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart' show AppLocalizations;
 
-class PointsPage extends StatefulWidget {
+class PointsPage extends StatelessWidget {
 
-  PointsPage();
 
-  @override
-  State<PointsPage> createState() => _PointsPageState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home:MyPointsPage()
+    );
+  }
 }
 
-class _PointsPageState extends State<PointsPage> {
+
+
+class MyPointsPage extends StatefulWidget {
+
+  MyPointsPage();
+
+  @override
+  State<MyPointsPage> createState() => _MyPointsPageState();
+}
+
+class _MyPointsPageState extends State<MyPointsPage> {
   Color plastikatGreen = Color.fromRGBO(10, 110, 15, 100);
 
   int? points;
@@ -44,8 +60,7 @@ class _PointsPageState extends State<PointsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         drawer: PlastikatDrawer(),
         appBar: PlastikatBar(),
         body: Center(child : isLoaded ? Column(
@@ -53,9 +68,9 @@ class _PointsPageState extends State<PointsPage> {
             const SizedBox(height: 40),
             pointWidget(points!.toString()),
             const SizedBox(height: 40),
-            Container(child: const Text(
-              'You can redeem those points with any of our partners',
-              style: TextStyle(
+            Container(child: Text(
+              AppLocalizations.of(context)!.quote,
+              style: const TextStyle(
                   color: Colors.black,
                   fontSize: 16,
                   fontFamily: 'Poppins',
@@ -64,13 +79,12 @@ class _PointsPageState extends State<PointsPage> {
             ),
             padding: EdgeInsets.only(left: 20,right: 20),),
             const SizedBox(height: 40),
-            PlastikatButton('View Partners', (){
+            PlastikatButton( AppLocalizations.of(context)!.view_Button, (){
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PartnersPage(points!)));}),
           ],
         ): const CircularProgressIndicator()),
-      ),
-    );
+      );
   }
 
   Widget pointWidget(String value) {
@@ -80,7 +94,7 @@ class _PointsPageState extends State<PointsPage> {
           children: [
             const SizedBox(height: 10),
             Text(
-              'Your Points :',
+              AppLocalizations.of(context)!.ur_Points,
               style: TextStyle(
                   color: plastikatGreen,
                   fontSize: 24,
@@ -109,7 +123,7 @@ class _PointsPageState extends State<PointsPage> {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'Points',
+                    AppLocalizations.of(context)!.points,
                     style: TextStyle(
                         color: plastikatGreen,
                         fontSize: 24,

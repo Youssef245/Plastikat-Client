@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -9,17 +10,34 @@ import '../Widgets/PlastikatDrawer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plastikat_client/globals.dart' as globals;
 import 'EditProfile.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart' show AppLocalizations;
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
 
-  ProfilePage();
 
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home:MyProfilePage()
+    );
+  }
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+
+
+class MyProfilePage extends StatefulWidget {
+
+  MyProfilePage();
+
+  @override
+  State<MyProfilePage> createState() => _MyProfilePageState();
+}
+
+class _MyProfilePageState extends State<MyProfilePage> {
   Color plastikatGreen = Color.fromRGBO(10, 110, 15, 100);
+  final String defaultLocale = Platform.localeName.split("_")[0];
 
   final String assetName = 'images/abstract-user-flat-1.svg';
   String? name;
@@ -46,8 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         drawer: PlastikatDrawer(),
         appBar: PlastikatBar(),
         body: isLoaded ? Container(
@@ -62,22 +79,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   width: 119,
                 ),
                 nameWidget(name!),
-                infoWidget('Email', email!,Icons.email_outlined),
+                infoWidget(AppLocalizations.of(context)!.email, email!,Icons.email_outlined),
                 const SizedBox(height: 31),
-                infoWidget('Mobile', phoneNumber!,Icons.call),
+                infoWidget(AppLocalizations.of(context)!.mob, phoneNumber!,Icons.call),
                 const SizedBox(height: 31),
                 Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: infoWidget('Address', address!,Icons.location_on),
+                  padding: defaultLocale=='en' ? const EdgeInsets.only(left: 15.0) : const EdgeInsets.only(right: 15.0),
+                  child: infoWidget(AppLocalizations.of(context)!.add, address!,Icons.location_on),
                 ),
                 const SizedBox(height: 31),
-                PlastikatButton('Edit Profile', (){
+                PlastikatButton(AppLocalizations.of(context)!.edit_Button, (){
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => EditProfile()));}),
               ],
             )):const CircularProgressIndicator(),
-      ),
-    );
+      );
   }
 
   Widget infoWidget(String field, String value, IconData icon) {

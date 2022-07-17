@@ -15,13 +15,27 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:plastikat_client/globals.dart' as globals;
 
 import '../entities/offer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart' show AppLocalizations;
 
-class PublishOffer extends StatefulWidget {
-  @override
-  _PublishOfferState createState() => _PublishOfferState();
+class PublishOffer extends StatelessWidget {
+
+
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home:MyPublishOffer()
+    );
+  }
 }
 
-class _PublishOfferState extends State<PublishOffer> {
+class MyPublishOffer extends StatefulWidget {
+  @override
+  _MyPublishOfferState createState() => _MyPublishOfferState();
+}
+
+class _MyPublishOfferState extends State<MyPublishOffer> {
   Color plastikatGreen = Color.fromRGBO(10, 110, 15, 100);
   List<Item> Items = [];
   List<Item> results = [];
@@ -35,7 +49,7 @@ class _PublishOfferState extends State<PublishOffer> {
   List <int> numbers=[];
   int totalPoints=0;
 
-  _PublishOfferState();
+  _MyPublishOfferState();
 
   @override
   void initState() {
@@ -84,8 +98,7 @@ class _PublishOfferState extends State<PublishOffer> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
           drawer: PlastikatDrawer(),
           appBar: PlastikatBar(),
           body: isLoaded? Column(
@@ -165,14 +178,14 @@ class _PublishOfferState extends State<PublishOffer> {
                     ),
                   ),),),
                 const SizedBox(height: 30,),
-                Text("Points : ${totalPoints.toString()}",
+                Text("${AppLocalizations.of(context)!.points} : ${totalPoints.toString()}",
                 style: const TextStyle(
                   fontFamily: 'comfortaa',
                   fontSize: 20,
                   fontWeight: FontWeight.bold
                 ),),
                 const SizedBox(height: 50,),
-                PlastikatButton("Publish Offer", () async {
+                PlastikatButton(AppLocalizations.of(context)!.publish_Offer, () async {
                   itemsToOffers();
                   if(finalResults.isNotEmpty)
                   {
@@ -192,7 +205,7 @@ class _PublishOfferState extends State<PublishOffer> {
                           context: context,
                           artDialogArgs: ArtDialogArgs(
                               type: ArtSweetAlertType.success,
-                              text: "Offer Created Successfully!"
+                              text:AppLocalizations.of(context)!.offer_success
                           )
                       );
                       Navigator.of(context).pop();
@@ -204,8 +217,7 @@ class _PublishOfferState extends State<PublishOffer> {
                 }),
 
               ],
-            ): const CircularProgressIndicator()),
-    );
+            ): const CircularProgressIndicator());
   }
 
   Widget TextWidget(String name,Color c) {
