@@ -110,6 +110,8 @@ class  _MySignUpPageState extends State<MySignUpPage> {
           key: 'points', value: "0");
       await globals.user.write(
           key: 'profession', value: professionController!.text);
+      await globals.user.write(
+          key: 'login', value: "true");
 
       final ClientService service = ClientService(await globals.secureStorage.read(key: 'access_token'));
       FirebaseMessaging _fcm = FirebaseMessaging.instance;
