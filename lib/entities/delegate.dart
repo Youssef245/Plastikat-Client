@@ -9,7 +9,7 @@ class Delegate {
     return Delegate(
       json['_id'],
       json['name'],
-      json['rating']!= null ? json['gender'] : null,
+      json['rating']!= null ? json['rating'] : null,
     );
   }
 

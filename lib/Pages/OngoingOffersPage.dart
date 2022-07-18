@@ -79,7 +79,18 @@ class _MyOngoingOffersPageState extends State<MyOngoingOffersPage> {
           body: isLoaded? SingleChildScrollView(
               child: Column(
                 children: [
-                  ...initiated.map((offer) {
+                  if(initiated.isEmpty)
+                    const Center(
+                        child: Text("You have made no ongoing offers yet",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontFamily: 'comfortaa',
+                            fontWeight: FontWeight.w300,
+                          ),)
+                    )
+                  else
+                    ...initiated.map((offer) {
                     i = i!+1;
                     return Stack(
                         children: [

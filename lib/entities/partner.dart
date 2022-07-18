@@ -5,12 +5,13 @@ class Partner {
   // ignore: unused_field
    String id;
    String name;
-   String description;
+   String? description;
    List<Reward>? rewards;
 
    Partner(
       this.id, this.name, this.description, this.rewards);
    Partner.empty(this.id, this.name, this.description);
+   Partner.view(this.id, this.name);
 
   factory Partner.fromJson(Map<String, dynamic> json) {
     return Partner(
@@ -24,6 +25,13 @@ class Partner {
           : null,
     );
   }
+
+   factory Partner.fromJson2(Map<String, dynamic> json) {
+     return Partner.view(
+       json['_id'],
+       json['name'],
+     );
+   }
 
   Map<String, dynamic> toJson() {
     return {

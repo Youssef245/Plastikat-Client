@@ -143,7 +143,7 @@ class _MyViewPartnerState extends State<MyViewPartner> {
         children: [
           titleWidget( AppLocalizations.of(context)!.description),
           const SizedBox(height: 15),
-          textWidget(partner!.description),
+          textWidget(partner!.description!),
           const SizedBox(height: 15),
           titleWidget(AppLocalizations.of(context)!.rewards),
           const SizedBox(height: 20),

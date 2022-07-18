@@ -17,7 +17,7 @@ class PartnerService {
       final payload = jsonDecode(response.body);
 
       return (payload['data'] as List)
-          .map((item) => Partner.fromJson(item as Map<String, dynamic>))
+          .map((item) => Partner.fromJson2(item as Map<String, dynamic>))
           .toList();
     } else {
       throw Exception('Failed to fetch partners');
